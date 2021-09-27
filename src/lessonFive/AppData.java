@@ -1,28 +1,47 @@
 package lessonFive;
 
-import java.io.Serializable;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.Scanner;
 
+public class AppData  {
 
-public class AppData implements Serializable {
-    private int [][] dataInt;
-    HashMap <String, Integer> myHashMap = new HashMap<>();
-    public void find () {
-        for (Map.Entry<String, Integer> o : myHashMap.entrySet()) {
-            System.out.print(o.getKey() + " " + o.getValue());
+    File file = new File("1.csv");
+    OutputStream out;
+    BufferedReader bufferedReader;
+    Scanner scanner = new Scanner(System.in);
+
+    {
+        try {
+            String [] header = new String[3];
+            for (int i = 0; i < header.length; i++) {
+                System.out.println("Введите имя значения");
+                header [i] = scanner.next();
+            }
+            out = new FileOutputStream(file);
+            out.write(Arrays.toString(header).getBytes(StandardCharsets.UTF_8));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        System.out.println();
     }
 
-
-    @Override
-    public String toString() {
-        return "AppData{" +
-                "dataInt=" + Arrays.toString(dataInt) +
-                ", myHashMap=" + myHashMap +
-                '}';
+    {
+        try {
+            bufferedReader = new BufferedReader(new FileReader("1.csv"));
+            System.out.println(bufferedReader.readLine());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Ничего не понял из урока, к сожалению. " +
+                "Но файл создается, информация в него добавляется с консоли. " +
+                "Мог добавить блок из интов, но это все не то...");
     }
+
 }
